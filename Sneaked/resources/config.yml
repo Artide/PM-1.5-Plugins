@@ -1,0 +1,15 @@
+#Item used to sneak (Default Compass:345)
+Sneak.ID: 345
+
+#Item used to unseak (Default Clock:347)
+#P.S. Cannot be the same as Sneak id
+unSneak.ID: 347
+
+#Show message when a player sneaks?
+ShowMessage: true
+
+#Message when a player sneaks
+SneakMessage: "@Player is sneaking!"
+
+#Message when player un-sneaks
+unSneakMessage: "@Player is no longer sneaking"
