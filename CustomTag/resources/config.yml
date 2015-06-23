@@ -1,0 +1,7 @@
+#Tag default format
+NameTagFormat: '{MONEY}|{NAME}'
+#Tipe of message?
+#Defaults (tip, popup, msg)
+MessageType: tip
+#Message to be sent when player joins
+Message: "Your nametag has been set to {FORMAT}"
