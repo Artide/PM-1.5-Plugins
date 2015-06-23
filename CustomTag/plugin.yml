@@ -1,0 +1,7 @@
+name: CustomTag
+version: 1.2
+main: CustomTag\Main
+api: 1.12.0
+author: Artide
+load: STARTUP
+description: "Customize your servers player tags!"
