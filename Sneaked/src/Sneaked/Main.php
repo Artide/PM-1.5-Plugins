@@ -42,8 +42,6 @@ class Main extends PluginBase implements Listener{
         $it = $e->getItem();
         $p = $e->getPlayer();
 
-        $tag = str_replace("@player", $p->getName(), $tag);
-
         if($it->getID() === $this->getConfig()->getNested("Sneak.ID")){
 
             $p->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_SNEAKING, true);
@@ -73,9 +71,7 @@ class Main extends PluginBase implements Listener{
             }
 
         }
-
-        return $tag;
-
+        
     }
 
     public function onDisable(){
