@@ -43,6 +43,8 @@ class Main extends PluginBase implements Listener{
     }
 
     public function moneyTag(Player $p, $tag){
+        
+        $tag = $this->getConfig()->getAll();
 
         $tag = str_replace("{MONEY}", $economys->getAllMoney($p), $tag);
 
