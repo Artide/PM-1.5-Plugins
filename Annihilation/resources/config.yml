@@ -1,0 +1,32 @@
+#Game configuration
+#Time to iniciate game(in minutes)
+StartTime: 1
+#Time of the fase(in minutes)
+PhaseTimeOne: 8
+PhaseTimeTwo: 8
+PhaseTimeThree: 8
+PhaseTimeFour: 8
+#Team spawns
+#Yellow
+YellowSpawnX: 0
+YellowSpawnY: 0
+YellowSpawnZ: 0
+#Red
+RedSpawnX: 0
+RedSpawnY: 0
+RedSpawnZ: 0
+#Green
+GreenSpawnX: 0
+GreenSpawnY: 0
+GreenSpawnZ: 0
+#Blue
+BlueSpawnX: 0
+BlueSpawnY: 0
+BlueSpawnZ: 0
+#lobby list
+lobby-list:
+ - world
+ - annihilation
+#arena list
+arena-list:
+ - annihilation
