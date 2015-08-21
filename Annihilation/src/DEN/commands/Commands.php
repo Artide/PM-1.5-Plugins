@@ -19,6 +19,14 @@ use DEN\points;
 
 class Commands{
 
+
+    public function val(Player $p,$msg){
+
+        $msg = $this->getConfig()->getAll();
+        $msg = str_replace("{NAME}",$p->getName(),$msg);
+
+    }
+
     /**
      * @param Command $cmd
      * @param CommandSender $sdr
@@ -47,6 +55,7 @@ class Commands{
             }elseif(!$sdr->hasPermission("nexus.setspawn")){
 
                 $sdr->sendMessage(Main::error . $cfg->get("NoPermission"));
+                return true;
 
             }
 
@@ -62,6 +71,11 @@ class Commands{
                 $cfg->save();
 
                 $sdr->sendMessage("Red spawn set to " . $x . ", " . $y . ", " . $z);
+                return true;
+
+            }elseif(!$sdr->hasPermission("nexus.setspawn")){
+
+                $sdr->sendMessage(Main::error . $cfg->get("NoPermission"));
                 return true;
 
             }
@@ -80,6 +94,11 @@ class Commands{
                 $sdr->sendMessage("Green spawn set to " . $x . ", " . $y . ", " . $z);
                 return true;
 
+            }elseif(!$sdr->hasPermission("nexus.setspawn")){
+
+                $sdr->sendMessage(Main::error . $cfg->get("NoPermission"));
+                return true;
+
             }
 
             if($args[0] === "setspawn" && $args[1] === "blue") {
@@ -96,15 +115,25 @@ class Commands{
                 $sdr->sendMessage("Blue spawn set to " . $x . ", " . $y . ", " . $z);
                 return true;
 
-            }
+            }elseif(!$sdr->hasPermission("nexus.setspawn")){
 
-            return true;
+                $sdr->sendMessage(Main::error . $cfg->get("NoPermission"));
+                return true;
+
+            }
 
         }
 
         if(strtolower($cmd->getName()) === "points"){
-
-            //TODO
+            
+            $points = mkdir($this->getDataFolder() . "points/" . strtolower($sdr->getName()) . ".yml", Config::YAML);
+            
+            if($points->exists("Points")){
+                
+                $sdr->sendMessage(Main::pfx . "Points: " . $points->get("Points"));
+                return true;
+                
+            }
 
         }
 
