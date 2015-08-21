@@ -7,19 +7,19 @@ PhaseTimeTwo: 8
 PhaseTimeThree: 8
 PhaseTimeFour: 8
 #Team spawns
-#Yellow
+#Yellow spawn
 YellowSpawnX: 0
 YellowSpawnY: 0
 YellowSpawnZ: 0
-#Red
+#Red spawn
 RedSpawnX: 0
 RedSpawnY: 0
 RedSpawnZ: 0
-#Green
+#Green spawn
 GreenSpawnX: 0
 GreenSpawnY: 0
 GreenSpawnZ: 0
-#Blue
+#Blue spawn
 BlueSpawnX: 0
 BlueSpawnY: 0
 BlueSpawnZ: 0
@@ -30,3 +30,19 @@ lobby-list:
 #arena list
 arena-list:
  - annihilation
+#no permission
+NoPermission: "You don't have sufficient permissions to set spawn."
+#Blocks to keep replacing
+#Format = X:Y:Z:ID:DAMAGE:LEVEL
+Blocks:
+ - 99:99:99:1:0:annihilation
+#Death message
+#{ATTACKER} = killer
+#{VICTIM} = death victim
+PlayerDeathMessage: "{ATTACKER} killed {VICTIM}"
+#Ammount of points gained per kill
+GainedPoints: 1
+#Message when player gets points
+#{POINTS} = total points player has
+#{GAINED} = gained points
+GainedPointsMessage: "+ {GAINED} points!"
