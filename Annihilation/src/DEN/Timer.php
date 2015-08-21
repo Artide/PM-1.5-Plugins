@@ -4,6 +4,7 @@ namespace DEN;
 
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\block\Block;
 use pocketmine\level\Level;
 use pocketmine\math\Vector3;
 use pocketmine\plugin\PluginBase;
@@ -32,22 +33,15 @@ class Timer{
     /**
      * @param $tick
      */
-    public function onRun($currentTick){
+    public function onRun($currentTick, $time){
 
-        $this->hasMatchStarted = $this->plug->stime[0];
-
-
-        $this->plug->stime -= 1;
-        $this->plug->fasetimerone -=1;
-        $this->plug->fasetimertwo -=1;
-        $this->plug->fasetimerthree -=1;
-        $this->plug->fasetimerfour -=1;
+        $time -= 1;
 
         $players = $this->getServer()->getLevelByName($this->getConfig()->get(array("lobby-list"))->getPlayers());
 
         foreach($players as $p){
 
-            $p->sendTip(Main::pfx . " Match starting in " . $this->plug->stime . " second(s)");
+            $p->sendTip(Main::pfx . " Match starting in " . $this->plug->stime($time) . " second(s)");
 
         }
 
@@ -55,11 +49,11 @@ class Timer{
 
         foreach($fplayers as $p){
 
-            $p->sendTip("Phase I: " . $this->plug->fasetimerone);
+            $p->sendTip("Phase I: " . $this->plug->ftime1($time));
 
-            if($this->plug->fasetimerone === 0){
+            if($this->plug->ftime1($time) === 0){
 
-                $p->sendTip("Phase II: " . $this->plug->fasetimertwo);
+                $p->sendTip("Phase II: " . $this->plug->ftime1($time));
 
                 $p->sendMessage(Mian::pfx . " Phase II. All nexus have lost invincibility");
 
@@ -67,9 +61,9 @@ class Timer{
 
             }
 
-            if($this->plug->fasetimertwo === 0){
+            if($this->plug->ftime2($time) === 0){
 
-                $p->sendTip("Phase III: " . $this->plug->fasetimerthree);
+                $p->sendTip("Phase III: " . $this->plug->ftime2($time));
 
                 $p->sendMessage(Main::pfx . " Phase III. Diamonds appear in the middle.");
 
@@ -77,9 +71,9 @@ class Timer{
 
             }
 
-            if($this->plug->fasetimerthree === 0){
+            if($this->plug->ftime3($time) === 0){
 
-                $p->sendTip("Phase IV: " . $this->plug->fasetimerfour);
+                $p->sendTip("Phase IV: " . $this->plug->ftime4($time));
 
                 $p->sendMessage(Main::pfx . " Phase IV. Blaze powder is available in shop.");
 
@@ -87,7 +81,7 @@ class Timer{
 
             }
 
-            if($this->plug->fasetimerfour === 0){
+            if($this->plug->ftime4($time) === 0){
 
                 $p->sendTip("Phase V");
 
@@ -144,7 +138,16 @@ class Timer{
 
     private function unhashBlock($string){
 
-        list(, $x, $y, $z, $id, $damage, $lvName) = explode(":", $string);
+        $cfg = $this->getConfig();
+
+        $x = $cfg->get(array("Blocks"));
+        $y = $cfg->get(array("Blocks"));
+        $y = $cfg->get(array("Blocks"));
+        $id = $cfg->get(array("Blocks"));
+        $damage = $cfg->get(array("Blocks"));
+        $lvName = $cfg->get(array("Blocks"));
+
+        list($x, $y, $z, $id, $damage, $lvName) = explode(":", $string);
         return Block::get($id, $damage, new Position($x, $y, $z, $this->getOwner()->getServer()->getLevelByName($lvName)));
 
     }
