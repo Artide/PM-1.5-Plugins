@@ -19,6 +19,7 @@ class Main extends PluginBase implements Listener{
 
     const pfx = "[Annihilation]";
     const error = "[ERROR]";
+    const pts = 75;
 
     /*@Timer task@*/
 
@@ -28,17 +29,17 @@ class Main extends PluginBase implements Listener{
     public $red = "red";
     public $yellow = "yellow";
     public $players = 0;
-    public $pts = 75;
     public $max = 10;
     public $min = 5;
 
-    public function onEnable($msg = "Plugin enabled")
+    public function onEnable()
     {
 
-        $this->getLogger()->info($msg);
+        $this->getLogger()->info("Plugin enabled");
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 
         mkdir($this->getDataFolder());
+        mkdir($this->getDataFolder() . "points/");
         $this->savedefaultConfig();
         $this->reloadConfig();
 
@@ -56,6 +57,36 @@ class Main extends PluginBase implements Listener{
         $this->getServer()->getScheduler()->scheduleRepeatingTask($fasetimethree = new Timer($this), $ftimethree);
         $this->getServer()->getScheduler()->scheduleRepeatingTask($fasetimefour = new Timer($this), $ftimefour);
         $this->getServer()->getScheduler()->scheduleRepeatingTask($this->task = new Timer($this), 20);
+
+    }
+
+    public function stime($stime){
+
+        return onEnable()::$stime;
+
+    }
+
+    public function ftime1($ftimeone){
+
+        return onEnable()::$ftimeone;
+
+    }
+
+    public function ftime2($ftimetwo){
+
+        return onEnable()::$ftimetwo;
+
+    }
+
+    public function ftime3($ftimethree){
+
+        return onEnable()::$ftimethree;
+
+    }
+
+    public function ftime4($ftimefour){
+
+        return onEnable()::$ftimefour;
 
     }
 
