@@ -16,7 +16,11 @@ use pocketmine\event\player\PlayerDeathEvent;
 
 class kits{
 
-    public $kits = array("Acrobat","Miner","Swapper","Fighter","Teleporter");
-    public $cost = array(400,500,600,750,900);
+    public $kits = ["Acrobat","Miner","Swapper","Fighter","Teleporter"];
+    public $cost = [400,500,600,750,900];
+
+    /*
+     * Acrobat is still not possible to make, might be in future updates.
+     */
 
 }
