@@ -21,10 +21,10 @@ class Teams{
 
     }
 
-    private $yellow = [];
-    private $red = [];
-    private $green = [];
-    private $blue = [];
+    private $yellow;
+    private $red;
+    private $green;
+    private $blue;
 
     /**
      * @param $p
