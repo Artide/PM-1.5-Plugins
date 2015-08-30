@@ -1,6 +1,6 @@
 <?php
 
-namespace DEN;
+namespace DEN\Commands;
 
 use pocketmine\Player;
 use pocketmine\Server;
@@ -19,6 +19,11 @@ use DEN\points;
 
 class Commands{
 
+    public function __construct(points $plugin){
+
+        $this->plug = $plugin;
+
+    }
 
     public function val(Player $p,$msg){
 
@@ -49,7 +54,7 @@ class Commands{
                 $cfg->set(array("YellowSpawnZ" => $z));
                 $cfg->save();
 
-                $sdr->sendMessage("Blue spawn set to " . $x . ", " . $y . ", " . $z);
+                $sdr->sendMessage(Main::pfx . " Blue spawn set to " . $x . ", " . $y . ", " . $z);
                 return true;
 
             }elseif(!$sdr->hasPermission("nexus.setspawn")){
@@ -70,7 +75,7 @@ class Commands{
                 $cfg->set(array("RedSpawnZ" => $z));
                 $cfg->save();
 
-                $sdr->sendMessage("Red spawn set to " . $x . ", " . $y . ", " . $z);
+                $sdr->sendMessage(Main::pfx . " Red spawn set to " . $x . ", " . $y . ", " . $z);
                 return true;
 
             }elseif(!$sdr->hasPermission("nexus.setspawn")){
@@ -91,7 +96,7 @@ class Commands{
                 $cfg->set(array("GreenSpawnZ" => $z));
                 $cfg->save();
 
-                $sdr->sendMessage("Green spawn set to " . $x . ", " . $y . ", " . $z);
+                $sdr->sendMessage(Main::pfx . " Green spawn set to " . $x . ", " . $y . ", " . $z);
                 return true;
 
             }elseif(!$sdr->hasPermission("nexus.setspawn")){
@@ -112,7 +117,7 @@ class Commands{
                 $cfg->set(array("BlueSpawnZ" => $z));
                 $cfg->save();
 
-                $sdr->sendMessage("Blue spawn set to " . $x . ", " . $y . ", " . $z);
+                $sdr->sendMessage(Main::pfx . " Blue spawn set to " . $x . ", " . $y . ", " . $z);
                 return true;
 
             }elseif(!$sdr->hasPermission("nexus.setspawn")){
@@ -125,15 +130,44 @@ class Commands{
         }
 
         if(strtolower($cmd->getName()) === "points"){
-            
-            $points = mkdir($this->getDataFolder() . "points/" . strtolower($sdr->getName()) . ".yml", Config::YAML);
-            
-            if($points->exists("Points")){
-                
-                $sdr->sendMessage(Main::pfx . "Points: " . $points->get("Points"));
+
+            $points = $this->plug->getPoints($sdr);
+
+                $sdr->sendMessage(Main::pfx . " Points: " . $points);
                 return true;
-                
+
+        }
+
+        if(strtolower($cmd->getName()) === "points" && isset($args[0])){
+
+            $player = $this->getServer()->getPlayerExact($args[0]);
+
+            $points = $this->plug->getPoints($player);
+
+            $sdr->sendMessage(Main::pfx . " Points: " . $points);
+            return true;
+
+        }
+
+        if(strtolower($cmd->getName()) === "setpoints" && isset($args[0]) && isset($args[1]) && $sdr->hasPermission("nexus.setpoints")){
+
+            $points = $args[0];
+            $player = $this->getServer()->getPlayerExact($args[1]);
+
+            $this->plug->setPoints($points, $player);
+            $sdr->sendMessage(Main::pfx . " set " . $player . "'s poins to: " . $points);
+
+            if($player === null){
+
+                $sdr->sendMessage(Main::pfx . " " . $player . " not is not online.");
+                return true;
+
             }
+
+        }elseif(!$sdr->hasPermission("nexus.setpoints")){
+
+            $sdr->sendMessage(Main::error . $cfg->get("NoPermission"));
+            return true;
 
         }
 
