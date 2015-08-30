@@ -1,6 +1,6 @@
 <?php
 
-namespace DEN;
+namespace DEN\Task;
 
 use pocketmine\Player;
 use pocketmine\item\Item;
@@ -21,6 +21,11 @@ class Teams{
 
     }
 
+    private $yellow = [];
+    private $red = [];
+    private $green = [];
+    private $blue = [];
+
     /**
      * @param $p
      */
@@ -32,7 +37,7 @@ class Teams{
         $p->getInventory()->setBoots(Item::get(301));
         $p->setNameTag(TXT::YELLOW . $p->getName());
 
-        return $this->yellow($p);
+        return $this->yellow;
 
     }
 
@@ -47,7 +52,7 @@ class Teams{
         $p->getInventory()->setBoots(Item::get(301));
         $p->setNameTag(TXT::RED . $p->getName());
 
-        return $this->red($p);
+        return $this->red;
 
     }
 
@@ -62,7 +67,7 @@ class Teams{
         $p->getInventory()->setBoots(Item::get(301));
         $p->setNameTag(TXT::GREEN . $p->getName());
 
-        return $this->green($p);
+        return $this->green;
 
     }
 
@@ -77,7 +82,7 @@ class Teams{
         $p->getInventory()->setBoots(Item::get(301));
         $p->setNameTag(TXT::BLUE . $p->getName());
 
-        return $this->blue($p);
+        return $this->blue;
 
     }
 
@@ -100,6 +105,59 @@ class Teams{
 
                 $damager->sendMessage(Main::pfx . $this->getConfig()->get("FriendlyAttackMessage"));
 
+                return true;
+
+            }
+
+        }
+
+        $msg = $this->getConfig()->get("FriendlyAttackMessage");
+        $msg = str_replace("{FRIEND}", $target->getName(), $msg);
+
+        return $msg;
+
+    }
+
+    /**
+     * @param $p
+     * @return string
+     */
+    public function getTeam($p){
+
+        if($this->yellow($p)){
+
+            return $this->yellow($p);
+
+        }elseif($this->red($p)){
+
+            return $this->red($p);
+
+        }elseif($this->green($p)){
+
+            return $this->green($p);
+
+        }elseif($this->blue($p)){
+
+            return $this->green($p);
+
+        }else{
+
+            return Main::error . " no team set for " . $p->getName();
+
+        }
+
+    }
+
+}
+/**
+ * @param $p
+ * @param $team
+ */
+public function setTeam($p, $team){
+
+    //TODO
+
+}
             }
 
         }
