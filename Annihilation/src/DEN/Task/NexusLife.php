@@ -1,6 +1,6 @@
 
 <?php
-namespace DEN;
+namespace DEN\Task;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\level\Level;
