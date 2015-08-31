@@ -42,7 +42,7 @@ class points
 
             if ($attacker instanceof Player) {
 
-                $apoints = new Config($this->getDataFolder() . "points/" . strtolower($victim->getName()) . ".yml", Config::YAML));
+                $apoints = new Config($this->getDataFolder() . "points/" . strtolower($attacker->getName()) . ".yml", Config::YAML));
                 if ($apoints->exists("Points")) {
 
                     $apoints->set($apoints->get("Points") + $this->getConfig()->get("GainedPoints"));
