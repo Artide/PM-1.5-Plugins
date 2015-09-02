@@ -2,12 +2,17 @@
 
 namespace DEN\Task;
 
+use <?php
+
+namespace DEN\Task;
+
 use pocketmine\Player;
 use pocketmine\item\Item;
 use pocketmine\math\Vector3;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\utils\TextFormat as TXT;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\player\PlayerDeathEvent;
 
 use DEN\Main;
 use DEN\Timer;
@@ -21,11 +26,6 @@ class Teams{
 
     }
 
-    private $yellow;
-    private $red;
-    private $green;
-    private $blue;
-
     /**
      * @param $p
      */
@@ -36,8 +36,8 @@ class Teams{
         $p->getInventory()->setLeggings(Item::get(300));
         $p->getInventory()->setBoots(Item::get(301));
         $p->setNameTag(TXT::YELLOW . $p->getName());
-
-        return $this->yellow;
+        
+        return self::yellow($p);
 
     }
 
@@ -52,7 +52,7 @@ class Teams{
         $p->getInventory()->setBoots(Item::get(301));
         $p->setNameTag(TXT::RED . $p->getName());
 
-        return $this->red;
+        return self::red($p);
 
     }
 
@@ -67,7 +67,7 @@ class Teams{
         $p->getInventory()->setBoots(Item::get(301));
         $p->setNameTag(TXT::GREEN . $p->getName());
 
-        return $this->green;
+        return self::green($p);
 
     }
 
@@ -82,7 +82,7 @@ class Teams{
         $p->getInventory()->setBoots(Item::get(301));
         $p->setNameTag(TXT::BLUE . $p->getName());
 
-        return $this->blue;
+        return self::blue($p);
 
     }
 
@@ -141,26 +141,70 @@ class Teams{
     }
 
     /**
+     * @param PlayerDeathEvent $e
+     */
+    public function onDeath(PlayerDeathEvent $e){
+
+        $p = $e->getPlayer();
+        $cfg = $this->getConfig();
+        
+        $yellowspawn = [$cfg->get("YellowSpawnX"),$cfg->get("YellowSpawnY"),$cfg->get("YellowSpawnZ")];
+        $redspawn = [$cfg->get("RedSpawnX"),$cfg->get("RedSpawnY"),$cfg->get("RedSpawnZ")];
+        $greenspawn = [$cfg->get("GreenSpawnX"),$cfg->get("GreenSpawnY"),$cfg->get("GreenSpawnZ")];
+        $bluespawn = [$cfg->get("BlueSpawnX"),$cfg->get("BlueSpawnY"),$cfg->get("BlueSpawnZ")];
+        
+        if($this->yellow($p)){
+
+            $p->teleport(new Position($yellowspawn));
+            
+        }
+        
+        if($this->red($p)){
+            
+            $p->teleport(new Postition($redspawn));
+            
+        }
+        
+        if($this->green($p)){
+            
+            $p->teleport(new Postition($greenspawn));
+            
+        }
+        
+        if($this->blue($p)){
+            
+            $p->teleport(new Postitio($bluespawn));
+            
+        }
+        
+    }
+
+    /**
      * @param $p
      * @return string
      */
-    public function getTeam($p){
-
+    public function getTeam(Player $p){
+        
+        $yellow = [$p->getName(), " : Yellow"];
+        $red = [$p->getName, " : Red"];
+        $green = [$p->getName, " : Green"];
+        $blue = [$p->getName, " : Blue"];
+        
         if($this->yellow($p)){
 
-            return $this->yellow($p);
+            return $yellow;
 
         }elseif($this->red($p)){
-
-            return $this->red($p);
+            
+            return $red;
 
         }elseif($this->green($p)){
-
-            return $this->green($p);
+            
+            return $green;
 
         }elseif($this->blue($p)){
 
-            return $this->green($p);
+            return $blue;
 
         }else{
 
@@ -183,3 +227,4 @@ class Teams{
     }
 
 }
+
