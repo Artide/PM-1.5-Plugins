@@ -97,15 +97,37 @@ class Teams{
 
         if($target instanceof Player && $damager instanceof Player){
 
-            if($this->yellow($target) && $this->yellow($damager)){
+            if($this->yellow($target) && $this->yellow($damager)) {
 
                 $e->setCancelled();
-
-            }else{
-
                 $damager->sendMessage(Main::pfx . $this->getConfig()->get("FriendlyAttackMessage"));
 
                 return true;
+
+            }elseif($this->red($target) && $this->red($damager)){
+
+                $e->setCancelled();
+                $damager->sendMessage(Main::pfx . $this->getConfig()->get("FriendlyAttackMessage"));
+
+                return true;
+
+            }elseif($this->green($target) && $this->green($damager)){
+
+                $e->setCancelled();
+                $damager->sendMessage(Main::pfx . $this->getConfig()->get("FriendlyAttackMessage"));
+
+                return true;
+
+            }elseif($this->blue($target) && $this->blue($damager)){
+
+                $e->setCancelled();
+                $damager->sendMessage(Main::pfx . $this->getConfig()->get("FriendlyAttackMessage"));
+
+                return true;
+
+            }else{
+
+                return false;
 
             }
 
@@ -148,13 +170,16 @@ class Teams{
 
     }
 
-}
-/**
- * @param $p
- * @param $team
- */
-public function setTeam($p, $team){
 
-    //TODO
+    /**
+     * @param $p
+     * @param $team
+     */
+
+    public function setTeam($p, $team){
+
+        //TODO
+
+    }
 
 }
