@@ -1,0 +1,41 @@
+name: HealthManager
+version: 1.0.0
+main: HealthManager\Main
+api: 1.12.0
+load: POSTWORLD
+
+description: manage a players health
+author: Artide
+website: N/A
+
+commands:
+  sethealth:
+    description: "set a players health"
+    usage: "/sethealth <player> <health>"
+    permission: hm.sethealth
+  savehealth:
+    description: "save players health"
+    usage: "/savehealth <player> <health>"
+    permission: hm.savehealth
+  randhealth:
+    description: "set a players health to a random value"
+    usage: "/randhealth <player> <number1> <number2>"
+    permission: hm.randhealth
+  gethealth:
+    description: "get a players health"
+    usage: "/gethealth <player>"
+    permission: hm.gethealth
+
+permissions:
+  hm.sethealth:
+    default: op
+    description: "set a players health"
+  hm.savehealth:
+    default: op
+    description: "save a players health"
+  hm.randhealth:
+    default: op
+    description: "set a players health to random"
+  hm.gethealth:
+    default: op
+    description: "get a players health"
