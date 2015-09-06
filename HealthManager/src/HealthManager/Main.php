@@ -4,6 +4,7 @@ namespace HealthManager;
 
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\utils\Config;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
 use pocketmine\plugin\PluginBase;
@@ -22,6 +23,11 @@ class Main extends PluginBase implements Listener{
 
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 
+        @mkdir($this->getDataFolder() . "/players");
+
+        $this->saveDefaultConfig();
+        $this->reloadConfig();
+
     }
 
     /**
@@ -39,25 +45,29 @@ class Main extends PluginBase implements Listener{
 
                     if($sender->hasPermission("hm.sethealth")) {
 
-                        if($this->getServer()->getPlayerExact($args[0])) {
+                        if (isset($args[0]) && isset($args[1])){
 
-                            $player = $this->getServer()->getPlayerExact($args[0]);
+                            if ($this->getServer()->getPlayerExact($args[0])) {
 
-                        if (is_numeric($args[1])) $player->setHealth($args[1]);
+                                $player = $this->getServer()->getPlayerExact($args[0]);
 
-                        $sender->sendMessage(TXT::GREEN . $player . "'s health set to " . TXT::RED . $args[1]);
+                                if (is_numeric($args[1])) $player->setHealth($args[1]);
 
-                        if (!is_numeric($args[1])) $sender->sendMessage(TXT::RED . "Invalid number.");
+                                $sender->sendMessage(TXT::GREEN . $player->getName() . "'s health set to " . TXT::RED . $args[1]);
 
-                        if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /sethealth <player> <health>");
+                                if (!is_numeric($args[1])) $sender->sendMessage(TXT::RED . "Invalid number.");
 
-                        return true;
+                                if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /sethealth <player> <health>");
 
-                        }else{
+                                return true;
 
-                            $sender->sendMessage(TXT::RED . "Player is offline.");
+                            } else {
 
-                            return true;
+                                $sender->sendMessage(TXT::RED . "Player is offline.");
+
+                                return true;
+
+                            }
 
                         }
 
@@ -68,36 +78,45 @@ class Main extends PluginBase implements Listener{
 
                     if($sender->hasPermission("hm.savehealth")) {
 
-                        if($player = $this->getServer()->getPlayerExact($args[0])) {
+                        if(isset($args[0]) && isset($args[1])) {
 
-                            $player = $this->getServer()->getPlayerExact($args[0]);
+                            if ($player = $this->getServer()->getPlayerExact($args[0])) {
 
-                            if (is_numeric($args[1])) $player->setHealth($args[1]);
+                                $player = $this->getServer()->getPlayerExact($args[0]);
 
-                            $health = new Config($this->getDataFolder() . "players/" . strtolower($player->getName()) . ".yml", Config::YAML);
+                                if (is_numeric($args[1])) $player->setHealth($args[1]);
 
-                            if ($health->exists("Health")) {
+                                $health = new \Config($this->getDataFolder() . "/players" . strtolower($player->getName()) . ".yml", Config::YAML,
+                                    [
+                                    "Health" => $args[1],
+                                    "Admin" => $sender->getName(),
+                                    ]
+                                );
 
-                                $health->set("Health", $args[0]);
-                                $health->save();
+                                if ($health->exists("Health")) {
 
-                                $sender->sendMessage(TXT::GREEN . $player . "'s health saved. When they join\n they will have the same health you set it to.");
+                                    $health->set("Health", $args[1]);
+                                    $health->save();
+
+                                    $sender->sendMessage(TXT::GREEN . $player->getName() . "'s health saved. When they join\n they will have the same health you set it to.");
+
+                                    return true;
+
+                                }
+
+                                if (!is_numeric($args[1])) $sender->sendMessage(TXT::RED . "Invalid number.");
+
+                                if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /savehealth <player> <health>");
+
+                                return true;
+
+                            } else {
+
+                                $sender->sendMessage(TXT::RED . "Player is offline.");
 
                                 return true;
 
                             }
-
-                            if (!is_numeric($args[1])) $sender->sendMessage(TXT::RED . "Invalid number.");
-
-                            if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /savehealth <player> <health>");
-
-                            return true;
-
-                        }else{
-
-                            $sender->sendMessage(TXT::RED . "Player is offline.");
-
-                            return true;
 
                         }
 
@@ -108,40 +127,44 @@ class Main extends PluginBase implements Listener{
 
                     if($sender->hasPermission("hm.randhealth")) {
 
-                        if($this->getServer()->getPlayerExact($args[0])) {
+                        if(isset($args[0]) && isset($args[1]) && isset($args[2])) {
 
-                            $player = $this->getServer()->getPlayerExact($args[0]);
+                            if ($this->getServer()->getPlayerExact($args[0])) {
 
-                            if (is_numeric($args[1]) && is_numeric($args[2]) && $args[1] < $args[2]) {
+                                $player = $this->getServer()->getPlayerExact($args[0]);
 
-                                $rand = $args[1];
-                                $rand2 = $args[2];
-                                $result = mt_rand($rand, $rand2);
+                                if (is_numeric($args[1]) && is_numeric($args[2]) && $args[1] < $args[2]) {
 
-                                $player->setHealth($result);
+                                    $rand = $args[1];
+                                    $rand2 = $args[2];
+                                    $result = mt_rand($rand, $rand2);
 
-                                $sender->sendMessage(TXT::GREEN . $player . "'s health set to " . $result);
+                                    $player->setHealth($result);
+
+                                    $sender->sendMessage(TXT::GREEN . $player->getName() . "'s health set to " . $result);
+
+                                    return true;
+
+                                } elseif ($args[1] > $args[2]) {
+
+                                    $sender->sendMessage(TXT::RED . "First number can't be bigger than second number.");
+                                    return true;
+
+                                }
+
+                                if (!is_numeric($args[1])) $sender->sendMessage(TXT::RED . "Invalid number.");
+
+                                if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /randhealth <player> <number1> <number2>");
 
                                 return true;
 
-                            } elseif ($args[1] > $args[2]) {
+                            } else {
 
-                                $sender->sendMessage(TXT::RED . "First number can't be bigger than second number.");
+                                $sender->sendMessage(TXT::RED . "Player is offline.");
+
                                 return true;
 
                             }
-
-                            if (!is_numeric($args[1])) $sender->sendMessage(TXT::RED . "Invalid number.");
-
-                            if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /randhealth <player> <number1> <number2>");
-
-                            return true;
-
-                        }else{
-
-                            $sender->sendMessage(TXT::RED . "Player is offline.");
-
-                            return true;
 
                         }
 
@@ -152,23 +175,27 @@ class Main extends PluginBase implements Listener{
 
                     if($sender->hasPermission("hm.gethealth")) {
 
-                        if($this->getServer()->getPlayerExact($args[0])) {
+                        if(isset($args[0])) {
 
-                            $player = $player = $this->getServer()->getPlayerExact($args[0]);
+                            if ($this->getServer()->getPlayerExact($args[0])) {
 
-                            $phealth = $player->getHealth();
+                                $player = $player = $this->getServer()->getPlayerExact($args[0]);
 
-                            $sender->sendMessage(TXT::GREEN . $player . "'s health is " . $phealth);
+                                $phealth = $player->getHealth();
 
-                            if (empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /gethealth <player>");
+                                $sender->sendMessage(TXT::GREEN . $player->getName() . "'s health is " . $phealth);
 
-                            return true;
+                                if (empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /gethealth <player>");
 
-                        }else{
+                                return true;
 
-                            $sender->sendMessage(TXT::RED . "Player is offline.");
+                            } else {
 
-                            return true;
+                                $sender->sendMessage(TXT::RED . "Player is offline.");
+
+                                return true;
+
+                            }
 
                         }
 
@@ -183,17 +210,17 @@ class Main extends PluginBase implements Listener{
      * @param PlayerJoinEvent $e
      * @return bool
      */
-    public function onJoin(PlayerJoinEvent $e){
+    public function onPlayerJoin(PlayerJoinEvent $e){
 
         $p = $e->getPlayer();
 
-        $health = new Config($this->getDataFolder() . "players/" . strtolower($p->getName()) . ".yml", Config::YAML);
+        $health = new \Config($this->getDataFolder() . "/players" . strtolower($p->getName()) . ".yml", Config::YAML);
 
-        if($health->exists("Health")){
+        if(method_exists($health, "Health") && method_exists($health, "Admin") && file_exists($health)){
 
             $p->setHealth($health->get("Health"));
 
-            $p->sendMessage(TXT::GREEN . "Your health was set to " . $health->get("Healt") . " by an admin.");
+            $p->sendMessage(TXT::GREEN . "Your health was set to" . TXT::RED . $health->get("Healt") . TXT::GREEN . ".\n by the admin " . TXT::RED . $health->get("Admin") . ".");
 
             return true;
 
