@@ -6,5 +6,5 @@ Annihilation is a 4 team oriented game, In which you collect resources, make pot
 - [x] Added commands.
 - [x] Added configurations.
 - [x] Points system
-- [ ] TODO kits
+- [ ] Kits
 - [ ] Configurable chat.
