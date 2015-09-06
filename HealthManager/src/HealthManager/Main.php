@@ -19,11 +19,19 @@ class Main extends PluginBase implements Listener{
         $log = $this->getLogger();
 
         $log->info("Plugin successfully loaded!");
-
+        
+        $This->getServer()->getPluginManager()->registerEvents($this, $this);
 
     }
 
-    public function onCommand(Command $command, CommandSender $sender, $label, array $args){
+    /**
+     * @param CommandSender $sender
+     * @param Command $command
+     * @param $label
+     * @param array $args
+     * @return bool
+     */
+    public function onCommand(CommandSender $sender, Command $command, $label, array $args){
 
             switch(strtolower($command->getName())) {
 
@@ -31,9 +39,9 @@ class Main extends PluginBase implements Listener{
 
                     if($sender->hasPermission("hm.sethealth")) {
 
-                        if(isset($args[0])) $player = $this->getServer()->getPlayerExact($args[0]);
+                        $player = $this->getServer()->getPlayerExact($args[0]);
 
-                        if (isset($args[1]) && is_numeric($args[1])) $player->setHealth($args[1]);
+                        if (is_numeric($args[1])) $player->setHealth($args[1]);
 
                         $sender->sendMessage(TXT::GREEN . $player->getName() . "'s health set to " . TXT::RED . $args[1]);
 
@@ -53,9 +61,9 @@ class Main extends PluginBase implements Listener{
 
                     if($sender->hasPermission("hm.savehealth")) {
 
-                        if(isset($args[0])) $player = $this->getServer()->getPlayerExact($args[0]);
+                        $player = $this->getServer()->getPlayerExact($args[0]);
 
-                        if (isset($args[1]) && is_numeric($args[1])) $player->setHealth($args[1]);
+                        if (is_numeric($args[1])) $player->setHealth($args[1]);
 
                         $health = new Config($this->getDataFolder() . "players/" . strtolower($player->getName()) . ".yml", Config::YAML);
 
@@ -83,9 +91,9 @@ class Main extends PluginBase implements Listener{
 
                     if($sender->hasPermission("hm.randhealth")) {
 
-                        if(isset($args[0])) $player = $this->getServer()->getPlayerExact($args[0]);
+                        $player = $this->getServer()->getPlayerExact($args[0]);
 
-                        if (isset($args[1]) && isset($args[2]) && is_numeric($args[1]) && is_numeric($args[2]) && $args[1] < $args[2]) {
+                        if (is_numeric($args[1]) && is_numeric($args[2]) && $args[1] < $args[2]) {
 
                             $rand = $args[1];
                             $rand2 = $args[2];
@@ -119,8 +127,8 @@ class Main extends PluginBase implements Listener{
 
                     if($sender->hasPermission("hm.gethealth")) {
 
-                        if(isset($args[0])) $player = $this->getServer()->getPlayerExact($args[0]);
-
+                        $player = $this->getServer()->getPlayerExact($args[0]);
+                        
                         $phealth = $player->getHealth();
 
                         $sender->sendMessage(TXT::GREEN . $player->getName() . "'s health is " . $phealth);
