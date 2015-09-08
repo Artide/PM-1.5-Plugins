@@ -205,18 +205,28 @@ class Main extends PluginBase implements Listener{
 
                                 $player = $this->getServer()->getPlayerExact($args[0]);
 
-                                $this->getConfig()->remove("Players", [$player->getName()]);
-                                $this->getConfig()->save();
+                                if($this->getConfig()->getAll()["Players"][$player->getName()] !== null) {
 
-                                $sender->sendMessage(TXT::GREEN . $player->getName() . "'s health deleted from config.");
+                                    $c = $this->getConfig()->get("Players");
+                                    unset($c[$player->getName()]);
+                                    $this->getConfig()->set("Players", $c);
+                                    $this->getConfig()->save();
+
+                                    $sender->sendMessage(TXT::GREEN . "Players config was deleted.");
+
+                                    return true;
+
+                                }else{
+
+                                    $sender->sendMessage(TXT::RED . "Player not found in config.");
+
+                                }
 
                                 if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /delhealth <player>");
 
-                                if ($this->getConfig()->getAll()["Players"][$player->getName()] === null) $sender->sendMessage(TXT::RED . "Player not found in config.");
-
                                 return true;
 
-                            } else {
+                            }else{
 
                                 $sender->sendMessage(TXT::RED . "Player is offline.");
 
@@ -265,8 +275,8 @@ class Main extends PluginBase implements Listener{
 
         $c = $this->getConfig()->getAll();
 
-        if(isset($c["Players"][$p->getName()])){
-
+        if($c["Players"][$p->getName()] !== null){
+            
             $p->setHealth($c["Players"][$p->getName()]);
 
             $p->sendMessage(TXT::GREEN . "Your health was set to " . TXT::RED . $c["Players"][$p->getName()] . TXT::GREEN . " by an admin.");
