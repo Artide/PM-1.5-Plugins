@@ -1,0 +1,19 @@
+name: RandTeleport
+version: 1.1
+main: RandTeleport\Main
+api: 1.12.0
+load: POSTWORLD
+
+description: Players can teleport to random locations
+author: Artide
+website: N/A
+
+commands:
+  rand:
+    description: "teleport to a random location"
+    permission: randtp.rand
+
+permissions:
+  randtp.rand:
+    default: true
+    description: "teleport to a random location"
