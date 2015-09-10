@@ -25,7 +25,7 @@ commands:
     description: "get a players health"
     usage: "/gethealth <player>"
     permission: hm.gethealth
-  gethealth:
+  delhealth:
     description: "delete players health"
     usage: "/delhealth <player>"
     permission: hm.delhealth
@@ -33,6 +33,10 @@ commands:
     description: "show plugin help"
     usage: "/healthmanager <help|h|?>"
     permission: hm.help
+  health:
+    description: "reset player health"
+    usage: "/health reset <player>"
+    permission: hm.reset
 
 permissions:
   hm.sethealth:
@@ -53,3 +57,6 @@ permissions:
   hm.help:
     default: true
     description: "show plugin help"
+  hm.reset:  
+    description: "reset player health"
+    default: op
