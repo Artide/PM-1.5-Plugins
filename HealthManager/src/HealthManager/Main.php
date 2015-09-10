@@ -15,7 +15,8 @@ use pocketmine\event\player\PlayerJoinEvent;
 
 class Main extends PluginBase implements Listener{
 
-    public $pfx = "[HealthManager]";
+    public $pfx = "";
+    public $defaultHealth = 0;
 
     public function onEnable(){
 
@@ -32,11 +33,14 @@ class Main extends PluginBase implements Listener{
 
     public function helpList($player){
 
+        $this->pfx .= "[HEALTH MANAGER]";
+
         $player->sendMessage(TXT::GREEN . $this->pfx);
-        $player->sendMessage(TXT::GREEN . "/sethealth <player> <health> : set a players health.");
-        $player->sendMessage(TXT::GREEN . "/savehealth <player> <health> : save a players health to the config.");
-        $player->sendMessage(TXT::GREEN . "/randhealth <player> <number1> <number2> : sets a players help to a random number between number1 and number 2.");
-        $player->sendMessage(TXT::GREEN . "/delhealth <player> : delete health from the config.");
+        $player->sendMessage(TXT::GREEN . "/sethealth <player> <health>");
+        $player->sendMessage(TXT::GREEN . "/savehealth <player> <health>");
+        $player->sendMessage(TXT::GREEN . "/randhealth <player> <number1> <number2>");
+        $player->sendMessage(TXT::GREEN . "/delhealth <player>");
+        $player->sendMessage(TXT::GREEN . "/health reset <player>");
 
         return true;
 
@@ -147,7 +151,7 @@ class Main extends PluginBase implements Listener{
 
                                 if (!is_numeric($args[1])) $sender->sendMessage(TXT::RED . "Invalid number.");
 
-                                if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /savehealth <player> <health>");
+                                if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /randhealth <player> <number1> <number2>");
 
                                 return true;
 
@@ -222,7 +226,7 @@ class Main extends PluginBase implements Listener{
 
                                 }
 
-                                if (empty($args[1]) || empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /delhealth <player>");
+                                if (empty($args[0])) $sender->sendMessage(TXT::RED . "Usage: /delhealth <player>");
 
                                 return true;
 
@@ -238,6 +242,37 @@ class Main extends PluginBase implements Listener{
 
                     }
                     break;
+
+                case 'health':
+
+                    if($sender->hasPermission("hm.reset")){
+
+                        if(isset($args[0]) && isset($args[1])){
+
+                            if ($args[0] = "reset" && $this->getServer()->getPlayerExact($args[1])) {
+
+                                $player = $this->getServer()->getPlayerExact($args[1]);
+
+                                $this->defaultHealth += 20;
+
+                                $player->setHealth($this->defaultHealth);
+
+                                $sender->sendMessage(TXT::GREEN . $player->getName() . "'s health was reset.");
+
+                                if(empty($args[0]) || empty($args[1])) $sender->sendMessage(TXT::RED . "Usage /health reset <player>");
+
+                                return true;
+
+                            }elseif($this->getServer()->getPlayerExact($args[1]) === null) {
+
+                                $sender->sendMessage(TXT::RED . "Player is offline.");
+
+                            }
+
+                        }
+
+                    }
+                break;
 
                 case 'healthmanager':
 
