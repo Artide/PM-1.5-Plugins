@@ -20,6 +20,9 @@ class Main extends PluginBase{
 
         $log->info("Plugin successfully loaded!");
 
+        $this->saveDefaultConfig();
+        $this->reloadConfig();
+
     }
 
     /**
@@ -28,7 +31,7 @@ class Main extends PluginBase{
      */
     public function rand_tp($p){
 
-        return $p->teleport($p->getLevel()->getSafeSpawn(new Vector3(rand(0,255), rand(0,127), rand(0,255))));
+        return $p->teleport($p->getLevel()->getSafeSpawn(new Vector3(mt_rand(0,1000), mt_rand(0,127), mt_rand(0,1000))));
 
     }
 
@@ -41,28 +44,39 @@ class Main extends PluginBase{
      */
     public function onCommand(CommandSender $sender, Command $cmd, $label, array $args){
 
-        switch(strtolower($cmd->getName())){
+        switch(strtolower($cmd->getName())) {
 
             case 'rand':
 
-                if($sender->hasPermission("randtp.rand")){
+                foreach($this->getConfig()->get("Worlds") as $world) {
 
-                    if($sender instanceof Player){
+                    if ($sender->hasPermission("randtp.rand")) {
 
-                        $this->rand_tp($sender);
+                        if ($sender instanceof Player && $sender->getLevel()->getName() !== $world) {
 
-                        $sender->sendMessage(TXT::GREEN . "Teleporting...");
+                            $this->rand_tp($sender);
 
-                    }else{
+                            $sender->sendMessage(TXT::AQUA . "Teleported to X: " . TXT::YELLOW . $sender->getX()
+                                . TXT::AQUA . ", Y: " . TXT::YELLOW . $sender->getY() . TXT::AQUA . " Z: " . TXT::YELLOW . $sender->getX());
 
-                        $sender->sendMessage(TXT::RED . "Please run this command in game.");
+                        } elseif(!$sender instanceof Player) {
 
-                        return true;
+                            $sender->sendMessage(TXT::RED . "Please run this command in game.");
+
+                            return true;
+
+                        }elseif($sender->getLevel()->getName() === $world){
+
+                            $sender->sendMessage(TXT::RED . "You are not allowed to use that command in this world.");
+
+                            return true;
+
+                        }
 
                     }
 
                 }
-            break;
+             break;
 
         }
 
