@@ -1,0 +1,9 @@
+#List of blocks to reset. Format: world:x:y:z:block_id:meta
+#Default block is dirt
+BLOCK_RESET_LIST:
+    - world:99:99:99:2:0
+#Time to reset:
+#minutes
+BLOCK_RESET_MINUTES: 1
+#seconds
+BLOCK_RESET_SECONDS: 30
