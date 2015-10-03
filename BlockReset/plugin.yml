@@ -1,0 +1,9 @@
+name: BlockReset
+version: Beta-1
+main: blockreset\BlockReset
+api: 1.12.0
+load: POSTWORLD
+
+description: reset blocks every few minutes\seconds
+author: Artide
+website: N/A
