@@ -202,7 +202,8 @@ class Main extends PluginBase implements Listener{
      * @param PlayerJoinEvent $e
      * @return bool
      */
-    public function onPlayerJoin(PlayerJoinEvent $e){
+    public function onPlayerJoin(PlayerJoinEvent $e)
+    {
         $p = $e->getPlayer();
         $c = $this->getConfig()->getAll();
         if($c["Players"][$p->getName()] !== null){
