@@ -15,7 +15,13 @@ use pocketmine\event\player\PlayerJoinEvent;
 
 class Main extends PluginBase implements Listener{
 
+    /**
+     * @var $pfx
+     */
     public $pfx = "";
+    /**
+     * @var int
+     */
     public $defaultHealth = 0;
 
     public function onEnable()
