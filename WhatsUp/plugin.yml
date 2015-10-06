@@ -1,0 +1,19 @@
+name: WhatsUp
+version: Beta-1
+main: WU\WU
+api: 1.12.0
+load: POSTWORLD
+
+description: Custom status
+author: Artide
+website: N/A
+
+commands:
+  wu:
+    description: "Set your custom status"
+    permission: wu.wu
+
+permissions:
+  wu.wu:
+    default: true
+    description: "Set your custom status"
