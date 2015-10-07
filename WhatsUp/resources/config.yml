@@ -1,3 +1,6 @@
 ---
+#Warning: don't use @whats_up in Join_Format because @whats_up is only for unsaved status-
+#and @saved_status is for saved status.
 Format: "@player\n@whats_up"
+Join_Format: "@player\n@saved_status"
 ...
