@@ -12,8 +12,20 @@ commands:
   wu:
     description: "Set your custom status"
     permission: wu.wu
+  ss:
+    description: "Save your custom status"
+    permission: wu.ss
+  ds:
+    description: "Delete your custom status"
+    permission: wu.ds
 
 permissions:
   wu.wu:
     default: true
     description: "Set your custom status"
+  wu.ss:
+    default: true
+    description: "Save your status"
+  wu.ds:
+    default: true
+    description: "Delete your status"
