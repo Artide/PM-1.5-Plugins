@@ -126,9 +126,10 @@ class WU extends PluginBase implements Listener{
     public function onPlayerJoin(PlayerJoinEvent $e)
     {
         $p = $e->getPlayer();
+        $format = $this->getConfig()->get("Join_Format");
         if(file_exists($this->getDataFolder() . "WhatsUp/" . $p->getName() . ".yml")){
             $status = new Config($this->getDataFolder() . "WhatsUp/" . $p->getName() . ".yml", Config::YAML);
-            $p->setNameTag($status->get("Status"));
+            $p->setNameTag(str_replace(["@player", "@saved_status"], [$p->getName(), $status->get("Status")], $format));
             $p->sendMessage(TXT::GREEN . "Status set to '" . $status->get("Status") . "'.");
         }else{
             return;
