@@ -42,7 +42,7 @@ class BlockReset extends PluginBase implements Listener{
 
         $this->min = $this->getConfig()->get("RESET_BLOCK_MINUTES");
         $this->sec = $this->getConfig()->get("RESET_BLOCK_SECONDS");
-        $this->getServer()->getScheduler()->scheduleRepeatingTask(new Task($this), 20 * $this->sec);
+        $this->getServer()->getScheduler()->scheduleRepeatingTask(new Timer($this), 20 * $this->sec);
         $this->mbu += $this->min;
         $this->sbu += $this->sec;
     }
