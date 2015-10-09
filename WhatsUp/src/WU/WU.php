@@ -14,12 +14,24 @@ use pocketmine\event\player\PlayerJoinEvent;
 
 class WU extends PluginBase implements Listener{
 
+    /**
+     * @var $secs
+     */
+    public $secs = 0;
+    /**
+     * @var int
+     */
+    public $sbu = 0;
+
     public function onEnable()
     {
         $log = $this->getLogger();
         $log->info(TXT::GREEN . "Plugin enabled!");
         $this->saveDefaultConfig();
         $this->reloadConfig();
+        $this->secs += $this->getConfig()->get("Rainbow_Seconds");
+        $this->sbu += $this->secs;
+        $this->getServer()->getScheduler()->scheduleRepeatingTask(new Timer($this), 20);
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         @mkdir($this->getDataFolder());
         @mkdir($this->getDataFolder() . "WhatsUp");
