@@ -3,6 +3,4 @@
 #and @saved_status is for saved status.
 Format: "@player\n@rb@whats_up"
 Join_Format: "@player\n@rb@saved_status"
-#Time it takes to update the @rb color
-Rainbow_Seconds: 5
 ...
