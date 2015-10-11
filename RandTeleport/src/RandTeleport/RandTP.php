@@ -1,5 +1,7 @@
 <?php
+
 namespace RandTeleport;
+
 use pocketmine\Level;
 use pocketmine\Player;
 use pocketmine\Server;
