@@ -79,7 +79,7 @@ class WU extends PluginBase implements Listener{
             case 'wu':
                 if ($p->hasPermission("wu.wu")) {
                     if ($p instanceof Player) {
-                        self::WhatsUp($p, implode(" ", $args));
+                        $this->WhatsUp($p, implode(" ", $args));
                         $p->sendMessage(TXT::GREEN . "Status set to '" . implode(" ", $args) . "'.");
                     } else {
                         $p->sendMessage(TXT::RED . "Please run this command in-game.");
@@ -95,8 +95,8 @@ class WU extends PluginBase implements Listener{
             case 'ss':
                 if ($p->hasPermission("wu.ss")) {
                     if ($p instanceof Player) {
-                        self::WhatsUp($p, implode(" ", $args));
-                        self::saveStatus($p, $args);
+                        $this->WhatsUp($p, implode(" ", $args));
+                        $this->saveStatus($p, $args);
                     } else {
                         $p->sendMessage(TXT::RED . "Please run this command in-game.");
                     }
@@ -111,7 +111,7 @@ class WU extends PluginBase implements Listener{
             case 'ds':
                 if ($p->hasPermission("wu.ds")) {
                     if ($p instanceof Player) {
-                        self::deleteStatus($p);
+                        $this->deleteStatus($p);
                     } else {
                         $p->sendMessage(TXT::RED . "Please run this command in-game.");
                     }
