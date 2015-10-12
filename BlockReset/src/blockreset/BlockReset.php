@@ -64,9 +64,7 @@ class BlockReset extends PluginBase implements Listener{
             }
         }
         if(is_int($meta)) {
-            return $this->getServer()->getLevelByName($world)->setBlock(new Vector3($pos),Block::get($blockId, $meta));
-        }else{
-            throw new \Exception(printf("%s is not an int", $meta));
+            return $this->getServer()->getLevelByName($world)->setBlock(new Vector3($pos), Block::get($blockId, $meta));
         }
     }
 
@@ -79,10 +77,7 @@ class BlockReset extends PluginBase implements Listener{
     public function deleteBlock($pos, $world)
     {
         if($pos !== null || $world !== null){
-            return $this->getServer()->getLevelByName($world)->setBlock(new Vector3($pos),Block::get(0, 0));
-        }else{
-            throw new \Exception("Null parameters!");
-        }
+            return $this->getServer()->getLevelByName($world)->setBlock(new Vector3($pos), Block::get(0, 0));
     }
 
     /**
@@ -98,8 +93,6 @@ class BlockReset extends PluginBase implements Listener{
                 list($world, $x, $y, $z, $blockId, $meta) = explode(":", $c);
                 return $this->getServer()->getLevelByName($world)->setBlock(new Vector3($x, $y, $z), Block::get($blockId, $meta));
             }
-        }else{
-            throw new \Exception(printf("%s is null", $cf));
         }
     }
 }
