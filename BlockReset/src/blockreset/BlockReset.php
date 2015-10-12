@@ -66,7 +66,7 @@ class BlockReset extends PluginBase implements Listener{
         if(is_int($meta)) {
             return $this->getServer()->getLevelByName($world)->setBlock(new Vector3($pos),Block::get($blockId, $meta));
         }else{
-            throw new \Exception(printf("%s is not an int", (int) $meta));
+            throw new \Exception(printf("%s is not an int", $meta));
         }
     }
 
