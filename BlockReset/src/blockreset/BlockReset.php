@@ -81,8 +81,7 @@ class BlockReset extends PluginBase implements Listener{
         if($pos !== null || $world !== null){
             return $this->getServer()->getLevelByName($world)->setBlock(new Vector3($pos),Block::get(0, 0));
         }else{
-            $null = null ? $pos : $world;
-            throw new \Exception(printf("%s is null", $null));
+            throw new \Exception("Null parameters!");
         }
     }
 
