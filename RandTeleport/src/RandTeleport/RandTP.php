@@ -62,9 +62,9 @@ class RandTP extends PluginBase
                 foreach($this->getConfig()->get("Worlds") as $world) {
                     if ($sender->hasPermission("randtp.rand")) {
                         if ($sender instanceof Player && $sender->getLevel()->getName() !== $world) {
-                            self::toRand($sender, self::RANDOM_TP);
+                            $this->toRand($sender, self::RANDOM_TP);
                             $sender->sendMessage(TXT::AQUA . "Teleported to X: " . TXT::YELLOW . $sender->getX()
-                                . TXT::AQUA . ", Y: " . TXT::YELLOW . $sender->getY() . TXT::AQUA . " Z: " . TXT::YELLOW . $sender->getX());
+                                . TXT::AQUA . ", Y: " . TXT::YELLOW . $sender->getY() . TXT::AQUA . " Z: " . TXT::YELLOW . $sender->getZ());
                         } elseif(!$sender instanceof Player) {
                             $sender->sendMessage(TXT::RED . "Please run this command in game.");
                             return true;
